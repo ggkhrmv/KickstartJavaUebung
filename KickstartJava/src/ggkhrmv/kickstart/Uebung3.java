@@ -7,7 +7,7 @@ public class Uebung3 {
     static int AB; //Anzahl Bücher
     static int points;
 
-    public static void Eingabe(){
+    public static void Eingabe() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Dieses Programm wird Ihre monatliche Anzahl an Buchklub Punkten berechnen.");
         System.out.println();
@@ -30,8 +30,8 @@ public class Uebung3 {
     }
 
     public static void main(String[] args) {
-      Eingabe();
-      points = PunkteBerechnen(AB);
-      System.out.println("Diesen Monat haben Sie "+points+" Punkte gesammelt.");
+        Eingabe();
+        points = PunkteBerechnen(AB);
+        System.out.println("Diesen Monat haben Sie " + points + " Punkte gesammelt.");
     }
 }
