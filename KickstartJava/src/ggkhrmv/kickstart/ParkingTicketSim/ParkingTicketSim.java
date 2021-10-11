@@ -25,7 +25,7 @@ public class ParkingTicketSim {
             System.out.println("=============================");
             showTicket(POfficer1.IssueTicket(car1, meter1));
         } else {
-            System.out.println("No rule violation has been found");
+            System.out.println("No rule violation has been found.");
         }
 
     }
