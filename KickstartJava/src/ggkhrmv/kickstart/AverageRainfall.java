@@ -34,14 +34,14 @@ public class AverageRainfall {
 
     public static void Output() {
 
-        System.out.println("Number of months: "+(y*12));
+        System.out.println("Number of months: " + (y * 12));
         System.out.println("Total rainfall: " + sum(rainFall) + " cm");
         System.out.println("Average rainfall per month: " + avg(rainFall) + " cm");
 
     }
 
     private static double avg(List<Double> rainFall) {
-        return sum(rainFall)/(y*12);
+        return sum(rainFall) / (y * 12);
     }
 
     private static double sum(List<Double> rainFall) {
