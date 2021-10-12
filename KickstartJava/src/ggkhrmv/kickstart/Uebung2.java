@@ -1,6 +1,6 @@
 package ggkhrmv.kickstart;
 
-public class Uebung2 {
+public class  Uebung2 {
 
     static double celsius(double fahrenheit) {
         return ((5.0 / 9.0) * (fahrenheit - 32));
