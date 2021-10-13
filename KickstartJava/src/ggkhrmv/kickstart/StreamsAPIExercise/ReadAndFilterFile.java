@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,24 +38,37 @@ public class ReadAndFilterFile {
         System.out.println("The filter will output a line containing the word you filter for.");
         System.out.println("Please type in a word you want to filter for:");
 
-        regex = s.next() + "[^.]*";
+        regex = s.next();
         Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
 
         Stream<String> stream = Files.lines(Paths.get(userInput.get(userIn)));
         String text = stream.collect(Collectors.joining());
 
-        String[] str = text.split("\\.");
-        List<String> al;
-        al = Arrays.asList(str);
+        String[] sWords;
+        sWords = text.split("[(\\s+)(\\.)]");
+        List<String> aWords;
+        aWords = Arrays.asList(sWords);
+
+        String[] sSentence;
+        sSentence = text.split("\\.");
+        List<String> aSentence;
+        aSentence = Arrays.asList(sSentence);
 
 
-        List<String> filtered = al.stream()
-                .map(st -> st.replaceAll("\\.\\s?", "\\.\n"))
+        List<String> filteredWords = aWords.stream()
+                .map(st -> st.replaceAll("[[\\[[0-9]\\]][\\,]]", ""))
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
 
-        filtered.forEach(System.out::println);
+        List<String> filteredSentence = aSentence.stream()
+                .map(st -> st.replaceAll("..[0-9]\\]", ""))
+                .filter(pattern.asPredicate())
+                .collect(Collectors.toList());
+
+        filteredSentence.forEach(System.out::println);
+        System.out.println();
+        System.out.println("The filtered word occurs "+filteredWords.size()+" times");
 
     }
 
