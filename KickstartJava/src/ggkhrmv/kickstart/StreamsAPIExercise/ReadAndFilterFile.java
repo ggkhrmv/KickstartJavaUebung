@@ -3,10 +3,7 @@ package ggkhrmv.kickstart.StreamsAPIExercise;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -42,18 +39,24 @@ public class ReadAndFilterFile {
         System.out.println("The filter will output a line containing the word you filter for.");
         System.out.println("Please type in a word you want to filter for:");
 
-        regex = s.next() + "[.]*";
+        regex = s.next() + "[^.]*";
         Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
 
         Stream<String> stream = Files.lines(Paths.get(userInput.get(userIn)));
+        String text = stream.collect(Collectors.joining());
 
-        List<String> filtered = stream
+        String[] str = text.split("\\.");
+        List<String> al;
+        al = Arrays.asList(str);
+
+
+        List<String> filtered = al.stream()
                 .map(st -> st.replaceAll("\\.\\s?", "\\.\n"))
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
-        filtered.forEach(System.out::println);
 
+        filtered.forEach(System.out::println);
 
     }
 
