@@ -19,7 +19,7 @@ public class ReadAndFilterFile {
 
         int userIn;
 
-        String regex;
+        String regexFilter;
 
         Scanner s = new Scanner(System.in);
 
@@ -35,40 +35,45 @@ public class ReadAndFilterFile {
 
         userIn = s.nextInt();
 
-        System.out.println("The filter will output a line containing the word you filter for.");
+        System.out.println("The filter will output a line/lines containing the word you filter for.");
         System.out.println("Please type in a word you want to filter for:");
 
-        regex = s.next();
-        Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
+        regexFilter = s.next();
+        Pattern pattern = Pattern.compile(regexFilter, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
 
         Stream<String> stream = Files.lines(Paths.get(userInput.get(userIn)));
         String text = stream.collect(Collectors.joining());
 
+        String regexWords = "[(\\s+)(\\.)]"; // split after every dot, white space, break etc. -> split into words
+        String regexSentence = "\\."; // split after every dot -> split into sentences
+
         String[] sWords;
-        sWords = text.split("[(\\s+)(\\.)]");
+        sWords = text.split(regexWords);
         List<String> aWords;
         aWords = Arrays.asList(sWords);
 
         String[] sSentence;
-        sSentence = text.split("\\.");
+        sSentence = text.split(regexSentence);
         List<String> aSentence;
         aSentence = Arrays.asList(sSentence);
 
+        String regexCommaRef = "[[\\[[0-9]\\]][\\,]]"; //replace every reference([xy]) and every comma
+        String regexRef = "..[0-9]\\]"; //replace every reference
 
         List<String> filteredWords = aWords.stream()
-                .map(st -> st.replaceAll("[[\\[[0-9]\\]][\\,]]", ""))
+                .map(st -> st.replaceAll(regexCommaRef, ""))
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
 
         List<String> filteredSentence = aSentence.stream()
-                .map(st -> st.replaceAll("..[0-9]\\]", ""))
+                .map(st -> st.replaceAll(regexRef, ""))
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
 
         filteredSentence.forEach(System.out::println);
         System.out.println();
-        System.out.println("The filtered word occurs "+filteredWords.size()+" times");
+        System.out.println("The filtered word occurs " + filteredWords.size() + " times");
 
     }
 
