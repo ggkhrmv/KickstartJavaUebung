@@ -26,7 +26,7 @@ public class ReadAndFilterFile {
 
         System.out.println("FILTER\tYOUR\tFILES");
         System.out.println();
-        System.out.println("With this program you can filter sample wiki articles for words/characters.");
+        System.out.println("With this program you can filter sample wiki articles for words.");
         System.out.println("""
                 To start please select on of these files by typing in the number:
                 1. IntelliJ Article
@@ -37,7 +37,7 @@ public class ReadAndFilterFile {
         userIn = s.nextInt();
 
         System.out.println("The filter will output a line containing the word you filter for.");
-        System.out.println("Please type in a word or a character the words start with you want to filter for:");
+        System.out.println("Please type in a word you want to filter for:");
         regex = s.next()+"[^.]*";
 
 
