@@ -2,18 +2,14 @@ package ggkhrmv.kickstart.WindowsSearch;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Search implements Runnable {
 
     private Thread t;
     private File dir;
     String search;
-
 
 
     Search(File dir, String search) {
@@ -29,7 +25,6 @@ public class Search implements Runnable {
 
         if (contents == null) {
         } else {
-
             for (File f : contents) {
 
                 String name = f.getName().toLowerCase(Locale.ROOT);
@@ -38,7 +33,6 @@ public class Search implements Runnable {
                 }
 
                 if (f.isDirectory()) {
-
                     Search s = new Search(contents[i], search);
                     multiThreads.add(s);
                 }
@@ -49,7 +43,6 @@ public class Search implements Runnable {
             multiThread.start();
         }
     }
-
 
 
     public void start() {
