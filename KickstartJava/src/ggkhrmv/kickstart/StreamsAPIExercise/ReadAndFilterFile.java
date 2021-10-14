@@ -46,12 +46,14 @@ public class ReadAndFilterFile {
 
         String regexCommaRef = "\\[..\\]|[\\,]"; //replace every reference([xy]) and every comma
         String regexRef = "..[0-9]\\]"; //replace every reference
+        String regexWS = "^\\s"; //replace whitespace at the beginning of output line
 
         List<String> sentenceFiltered = Files.lines(Paths.get(userInput.get(userIn)))
                 .map(st -> st.replaceAll(regexRef, ""))
                 .map(line -> line.split(regexSentence))
                 .flatMap(Arrays::stream)
                 .filter(pattern.asPredicate())
+                .map(st -> st.replaceAll(regexWS, ""))
                 .collect(Collectors.toList());
 
         List<String> wordsFiltered = Files.lines(Paths.get(userInput.get(userIn)))
