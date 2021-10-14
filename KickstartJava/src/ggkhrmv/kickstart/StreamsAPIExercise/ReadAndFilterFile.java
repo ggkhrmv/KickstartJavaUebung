@@ -66,6 +66,13 @@ public class ReadAndFilterFile {
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
 
+        List<String> wordsFiltered = Files.lines(Paths.get(userInput.get(userIn)))
+                .map(line -> line.split(regexSentence))
+                .flatMap(Arrays::stream)
+                .filter(pattern.asPredicate())
+                .collect(Collectors.toList());
+
+
         List<String> filteredSentence = aSentence.stream()
                 .map(st -> st.replaceAll(regexRef, ""))
                 .filter(pattern.asPredicate())
@@ -74,6 +81,7 @@ public class ReadAndFilterFile {
         filteredSentence.forEach(System.out::println);
         System.out.println();
         System.out.println("The filtered word occurs " + filteredWords.size() + " times");
+        System.out.println("The filtered word occurs " + wordsFiltered.size() + " times");
 
     }
 
