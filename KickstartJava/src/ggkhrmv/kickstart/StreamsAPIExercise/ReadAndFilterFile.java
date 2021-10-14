@@ -41,46 +41,29 @@ public class ReadAndFilterFile {
         regexFilter = s.next();
         Pattern pattern = Pattern.compile(regexFilter, Pattern.MULTILINE | Pattern.CASE_INSENSITIVE);
 
-
-        Stream<String> stream = Files.lines(Paths.get(userInput.get(userIn)));
-        String text = stream.collect(Collectors.joining());
-
         String regexWords = "[(\\s+)(\\.)]"; // split after every dot, white space, break etc. -> split into words
         String regexSentence = "\\."; // split after every dot -> split into sentences
 
-        String[] sWords;
-        sWords = text.split(regexWords);
-        List<String> aWords;
-        aWords = Arrays.asList(sWords);
-
-        String[] sSentence;
-        sSentence = text.split(regexSentence);
-        List<String> aSentence;
-        aSentence = Arrays.asList(sSentence);
-
-        String regexCommaRef = "[[\\[[0-9]\\]][\\,]]"; //replace every reference([xy]) and every comma
+        String regexCommaRef = "\\[..\\]|[\\,]"; //replace every reference([xy]) and every comma
         String regexRef = "..[0-9]\\]"; //replace every reference
 
-        List<String> filteredWords = aWords.stream()
-                .map(st -> st.replaceAll(regexCommaRef, ""))
-                .filter(pattern.asPredicate())
-                .collect(Collectors.toList());
-
-        List<String> wordsFiltered = Files.lines(Paths.get(userInput.get(userIn)))
+        List<String> sentenceFiltered = Files.lines(Paths.get(userInput.get(userIn)))
+                .map(st -> st.replaceAll(regexRef, ""))
                 .map(line -> line.split(regexSentence))
                 .flatMap(Arrays::stream)
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
 
-
-        List<String> filteredSentence = aSentence.stream()
-                .map(st -> st.replaceAll(regexRef, ""))
+        List<String> wordsFiltered = Files.lines(Paths.get(userInput.get(userIn)))
+                .map(st -> st.replaceAll(regexCommaRef, ""))
+                .map(line -> line.split(regexWords))
+                .flatMap(Arrays::stream)
                 .filter(pattern.asPredicate())
                 .collect(Collectors.toList());
 
-        filteredSentence.forEach(System.out::println);
+
+        sentenceFiltered.forEach(System.out::println);
         System.out.println();
-        System.out.println("The filtered word occurs " + filteredWords.size() + " times");
         System.out.println("The filtered word occurs " + wordsFiltered.size() + " times");
 
     }
